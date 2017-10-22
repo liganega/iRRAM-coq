@@ -1,3 +1,4 @@
+(*
 From iRRAM.lang Require Import extraction ilog2.
 Set Default Proof Using "Type".
 
@@ -10,3 +11,4 @@ Separate Extraction ilog2_iRRAM.
 Pwd.
 Cd "../..".
 Pwd.
+*)

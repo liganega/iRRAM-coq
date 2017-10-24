@@ -21,11 +21,18 @@ Inductive tern_op : Set :=
   | RLtOp.
 
 Inductive binder := BAnon | BNamed : string → binder.
+
 Delimit Scope binder_scope with bind.
 Bind Scope binder_scope with binder.
+
 Definition cons_binder (mx : binder) (X : list string) : list string :=
-  match mx with BAnon => X | BNamed x => x :: X end.
+  match mx with
+    BAnon => X
+  | BNamed x => x :: X
+  end.
+
 Infix ":b:" := cons_binder (at level 60, right associativity).
+
 Instance binder_eq_dec_eq : EqDecision binder.
 Proof. solve_decision. Defined.
 

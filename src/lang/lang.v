@@ -12,20 +12,40 @@ Open Scope Z_scope.
 Definition loc := positive. (* Really, any countable type. *)
 
 Inductive base_lit : Set :=
-  | LitInt (n : Z) | LitREAL (r : R) | LitBool (b : bool) | LitUnit | LitLoc (l : loc).
-Inductive un_op : Set :=
-  | NegOp | MinusUnOp | RCastOp.
-Inductive bin_op : Set :=
-  | PlusOp | MinusOp | MulOp | DivOp | PowOp | RQuotOp | LeOp | LtOp | EqOp.
-Inductive tern_op : Set :=
-  | RLtOp.
+| LitInt (n : Z)
+| LitREAL (r : R)
+| LitBool (b : bool)
+| LitUnit
+| LitLoc (l : loc).
 
-Inductive binder := BAnon | BNamed : string → binder.
+Inductive un_op : Set :=
+| NegOp
+| MinusUnOp
+| RCastOp.
+
+Inductive bin_op : Set :=
+| PlusOp
+| MinusOp
+| MulOp
+| DivOp
+| PowOp
+| RQuotOp
+| LeOp
+| LtOp
+| EqOp.
+
+Inductive tern_op : Set :=
+| RLtOp.
+
+Inductive binder :=
+  BAnon
+| BNamed : string → binder.
 
 Delimit Scope binder_scope with bind.
 Bind Scope binder_scope with binder.
 
-Definition cons_binder (mx : binder) (X : list string) : list string :=
+Definition cons_binder (mx : binder) (X : list string) :
+  list string :=
   match mx with
     BAnon => X
   | BNamed x => x :: X
@@ -37,7 +57,8 @@ Instance binder_eq_dec_eq : EqDecision binder.
 Proof. solve_decision. Defined.
 
 Instance set_unfold_cons_binder x mx X P :
-  SetUnfold (x ∈ X) P → SetUnfold (x ∈ mx :b: X) (BNamed x = mx ∨ P).
+  SetUnfold (x ∈ X) P →
+  SetUnfold (x ∈ mx :b: X) (BNamed x = mx ∨ P).
 Proof.
   constructor. rewrite -(set_unfold (x ∈ X) P).
   destruct mx; rewrite /= ?elem_of_cons; naive_solver.
